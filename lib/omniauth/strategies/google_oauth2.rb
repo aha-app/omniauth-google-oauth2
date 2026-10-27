@@ -27,7 +27,11 @@ module OmniAuth
       option :client_options,
              site: 'https://oauth2.googleapis.com',
              authorize_url: 'https://accounts.google.com/o/oauth2/auth',
-             token_url: '/token'
+             token_url: '/token',
+             # oauth2 2.0 defaults `auth_scheme` to `:basic_auth`, sending the client
+             # credentials in the Authorization header. Keep them in the request body, which
+             # was the oauth2 1.x default this release was written against.
+             auth_scheme: :request_body
 
       def authorize_params
         super.tap do |params|
